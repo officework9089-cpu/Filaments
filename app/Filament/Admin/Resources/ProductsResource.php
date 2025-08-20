@@ -2,13 +2,16 @@
 
 namespace App\Filament\Admin\Resources;
 
-use App\Enum\ProductTypeEnum;
 use App\Enums\ProductTypeEnum as EnumsProductTypeEnum;
 use App\Filament\Admin\Resources\ProductsResource\Pages;
 use App\Filament\Admin\Resources\ProductsResource\RelationManagers;
+use App\Filament\Exports\ProductsExporter;
+use App\Filament\Imports\ProductsImporter;
 use App\Models\Products;
 use Doctrine\DBAL\Schema\Column;
 use Doctrine\DBAL\Schema\Schema;
+use Filament\Actions\Exports\Enums\Contracts\ExportFormat;
+use Filament\Actions\Imports\Importer;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
@@ -21,6 +24,9 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ImportAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -121,7 +127,7 @@ class ProductsResource extends Resource
                     ->required(),
                     TextInput::make('price')
                     ->numeric()
-                    ->rules('regex:/^\d{1,6}(\.\d{0,2})$/')
+                    ->rules('regex:/^\d{1,6}(\.\d{0,2})?$/')
                     ->required(),
                     TextInput::make('quantity')
                     ->numeric()
@@ -147,7 +153,7 @@ class ProductsResource extends Resource
                     Toggle::make('is_featured')
                     ->label('Featured')
                     ->helperText("Enable or disable Product Featured"),
-                    DatePicker::make('publish_At')
+                    DatePicker::make('publish_at')
                     ->label('Availibil')
                     ->default(now())
                     ]),
@@ -197,7 +203,7 @@ class ProductsResource extends Resource
                 TextColumn::make('quantity')
                 ->sortable()
                 ->toggleable(),
-                TextColumn::make('publish_At')
+                TextColumn::make('publish_at')
                 ->sortable()
                 ->date(),
                 TextColumn::make('type'),
@@ -221,10 +227,15 @@ class ProductsResource extends Resource
                     Tables\Actions\DeleteAction::make(),
                 ]),
              ])
+             ->headerActions([
+                ExportAction::make()->exporter(ProductsExporter::class),
+                ImportAction::make()->Importer(ProductsImporter::class)
+             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+                ExportBulkAction::make()->exporter(ProductsExporter::class)
             ]);
     }
 

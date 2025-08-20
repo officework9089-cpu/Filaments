@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('brand_id')
             ->constrained('brands')
             ->cascadeOnDelete();
+            $table->foreignId('category_id')
+            ->constrained('categories')
+            ->cascadeOnDelete();
             $table->string('name');
             $table->string('slug')->unique();
             $table->string('sku')->unique();
@@ -26,7 +29,7 @@ return new class extends Migration
             $table->boolean('is_visible')->default(false);
             $table->boolean('is_faetured')->default(false);
             $table->enum('type',['deliverable','downloadable'])->default('deliverable');
-            $table->date('publish_At');
+            $table->date('publish_at');
             $table->timestamps();
         });
     }

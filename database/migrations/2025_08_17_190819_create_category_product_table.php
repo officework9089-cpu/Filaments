@@ -20,7 +20,7 @@ return new class extends Migration
            ->cascadeOnDelete();
             $table->primary(['category_id', 'product_id']); // composite primary key
 
-        });
+        })
     }
 
     /**

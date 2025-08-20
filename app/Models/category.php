@@ -25,10 +25,10 @@ class category extends Model
      return $this->hasMany(category::class, 'parent_id');
     }
 
-    public function product() : BelongsToMany {
-        return $this->belongsToMany(products::class, 'category_product');
-
-        
+    public function products()
+    {
+        return $this->belongsToMany(Products::class, 'category_product', 'category_id', 'product_id');
     }
+
 }
  

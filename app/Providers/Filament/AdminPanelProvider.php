@@ -26,8 +26,8 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('admin')
-            ->path('admin')
+            ->id('dashboard')
+            ->path('dashboard')
             ->login()
             ->passwordReset()
             ->colors([
@@ -36,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
             ->font('poppins')
             ->sidebarCollapsibleOnDesktop()
+            ->databaseNotifications()
             ->navigationItems([
                 NavigationItem::make('Blog')
                 ->url('https://blog.codewithdary.com', shouldOpenInNewTab: true)
