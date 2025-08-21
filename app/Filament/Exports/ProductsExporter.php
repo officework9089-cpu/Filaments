@@ -17,15 +17,20 @@ class ProductsExporter extends Exporter
             ExportColumn::make('id')
                 ->label('ID'),
             ExportColumn::make('name'),
+            ExportColumn::make('brand.name'),
             ExportColumn::make('slug'),
             ExportColumn::make('sku')
                 ->label('SKU'),
             ExportColumn::make('description'),
+            ExportColumn::make('image'),
             ExportColumn::make('quantity'),
             ExportColumn::make('price'),
             ExportColumn::make('is_visible'),
-            ExportColumn::make('is_faetured'),
+            ExportColumn::make('is_featured'),
             ExportColumn::make('type'),
+            ExportColumn::make('publish_at'),
+            ExportColumn::make('created_at'),
+            ExportColumn::make('updated_at'),
 
         ];
     }

@@ -18,6 +18,10 @@ class ProductsImporter extends Importer
             ImportColumn::make('name')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
+            ImportColumn::make('brand')
+                ->requiredMapping()
+                ->relationship('brand' , 'name')
+                ->rules(['required']),    
             ImportColumn::make('slug')
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
@@ -26,6 +30,9 @@ class ProductsImporter extends Importer
                 ->requiredMapping()
                 ->rules(['required', 'max:255']),
             ImportColumn::make('description'),
+            ImportColumn::make('image')
+                ->requiredMapping()
+                ->rules(['required', 'max:255']),
             ImportColumn::make('quantity')
                 ->requiredMapping()
                 ->numeric()
@@ -34,27 +41,25 @@ class ProductsImporter extends Importer
                 ->requiredMapping()
                 ->numeric()
                 ->rules(['required', 'integer']),
-            ImportColumn::make('is_visible')
-                ->requiredMapping()
-                ->boolean()
-                ->rules(['required', 'boolean']),
-            ImportColumn::make('is_faetured')
-                ->requiredMapping()
-                ->boolean()
-                ->rules(['required', 'boolean']),
+            ImportColumn::make('is_visible'),
+            ImportColumn::make('is_featured'),
             ImportColumn::make('type')
                 ->requiredMapping()
                 ->rules(['required']),
+            ImportColumn::make('publish_at')
+                ->requiredMapping()
+                ->rules(['required', 'date']),                
 
         ];
     }
 
     public function resolveRecord(): ?Products
     {
-        // return Products::firstOrNew([
-        //     // Update existing records, matching them by `$this->data['column_name']`
-        //     'email' => $this->data['email'],
-        // ]);
+    
+        return Products::firstOrNew($this->data, [
+            // Update existing records, matching them by `$this->data['column_name']`
+            'slug' => $this->data['slug'],
+        ]);
 
         return new Products();
     }

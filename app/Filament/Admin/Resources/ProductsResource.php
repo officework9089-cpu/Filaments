@@ -154,7 +154,7 @@ class ProductsResource extends Resource
                     ->label('Featured')
                     ->helperText("Enable or disable Product Featured"),
                     DatePicker::make('publish_at')
-                    ->label('Availibil')
+                    ->label('Availibility')
                     ->default(now())
                     ]),
                     Section::make('Image')
@@ -170,10 +170,7 @@ class ProductsResource extends Resource
                     Select::make('brand_id')
                     ->relationship('brand', 'name')
                     ->required(),
-                    Select::make('categories')
-                    ->relationship('categories', 'name')
-                    ->multiple()
-                    ->required(),
+                    
                 ]),
                     ]),
 
@@ -189,6 +186,10 @@ class ProductsResource extends Resource
                 ->searchable()
                 ->sortable(),
                 TextColumn::make('brand.name')
+                ->searchable()
+                ->sortable()
+                ->toggleable(),
+                TextColumn::make('category.name')
                 ->searchable()
                 ->sortable()
                 ->toggleable(),
